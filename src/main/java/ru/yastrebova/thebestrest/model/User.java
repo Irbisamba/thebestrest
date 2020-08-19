@@ -1,16 +1,65 @@
 package ru.yastrebova.thebestrest.model;
 
-import java.util.Objects;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "users")
 public class User {
+    public static final int START_SEQ = 100000;
+
+    @Id
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
+    //    @Column(name = "id", unique = true, nullable = false, columnDefinition = "integer default nextval('global_seq')")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
+    protected Integer id;
+
+    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(max = 255)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotBlank
+    @Size(max = 255)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    @NotBlank
+    @Size(min = 5, max = 255)
     private String password;
 
-    public User(String name, String email, String password) {
+    public User(@NotBlank @Size(max = 255) String name, @Email @NotBlank @Size(max = 255) String email, @NotBlank @Size(min = 5, max = 255) String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public static int getStartSeq() {
+        return START_SEQ;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -35,28 +84,5 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getName().equals(user.getName()) &&
-                getEmail().equals(user.getEmail()) &&
-                getPassword().equals(user.getPassword());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getEmail(), getPassword());
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }
