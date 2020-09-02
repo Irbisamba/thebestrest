@@ -37,30 +37,6 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
-        templateResolver.setSuffix(".html");
-        return templateResolver;
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setEnableSpringELCompiler(true);
-        return templateEngine;
-    }
-
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine());
-        registry.viewResolver(resolver);
-    }
-
-    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
@@ -73,27 +49,27 @@ public class SpringConfig implements WebMvcConfigurer {
         return em;
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-//        dataSource.setUrl("jdbc:hsqldb:mem:thebestrest");
-//        dataSource.setUsername("sa");
-//        dataSource.setPassword("");
-//        return dataSource;
-//    }
-
     @Bean
     public DataSource dataSource() {
-
-        return new EmbeddedDatabaseBuilder()
-                .generateUniqueName(true)
-                .setType(HSQL)
-                .setScriptEncoding("UTF-8")
-                .ignoreFailedDrops(true)
-                .addScript("db/initDB_hsql.sql")
-                .build();
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        dataSource.setUrl("jdbc:hsqldb:mem:thebestrest");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("");
+        return dataSource;
     }
+
+//    @Bean
+//    public DataSource dataSource() {
+//
+//        return new EmbeddedDatabaseBuilder()
+//                .generateUniqueName(true)
+//                .setType(HSQL)
+//                .setScriptEncoding("UTF-8")
+//                .ignoreFailedDrops(true)
+//                .addScript("db/initDB_hsql.sql")
+//                .build();
+//    }
 
     private Properties additionalProperties() {
         Properties properties = new Properties();
