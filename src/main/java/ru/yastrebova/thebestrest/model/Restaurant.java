@@ -26,7 +26,6 @@ public class Restaurant {
     private String name;
 
     @Column(name = "address")
-    @NotBlank
     @Size(max = 255)
     private String address;
 
@@ -35,10 +34,31 @@ public class Restaurant {
     private LocalDate dateOfLastUpdating;
 
     @Column(name = "rating")
-    @NotNull
     private int rating;
 
     @Column(name = "admin_id")
     @NotNull
     private int admin_id;
+
+    public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id, @NotNull LocalDate date) {
+        this.name = name;
+        this.address = address;
+        this.admin_id = admin_id;
+        this.dateOfLastUpdating = date;
+    }
+
+    public Restaurant() {
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", dateOfLastUpdating=" + dateOfLastUpdating +
+                ", rating=" + rating +
+                ", admin_id=" + admin_id +
+                '}';
+    }
 }
