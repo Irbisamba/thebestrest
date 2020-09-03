@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Table(name = "meals")
 @Data
 public class Meal {
-    public static final int START_SEQ = 100000;
+    public static final int START_SEQ = 1;
 
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
