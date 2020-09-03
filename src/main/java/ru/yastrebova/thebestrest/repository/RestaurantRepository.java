@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yastrebova.thebestrest.model.Restaurant;
-import ru.yastrebova.thebestrest.model.User;
+
+import java.util.List;
 
 @Repository
 public class RestaurantRepository {
@@ -19,5 +20,9 @@ public class RestaurantRepository {
     @Transactional
     public Restaurant create(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        return crudRestaurantRepository.findAll();
     }
 }

@@ -6,6 +6,7 @@ import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class RestaurantService {
@@ -18,5 +19,9 @@ public class RestaurantService {
         restaurant = restaurantRepository.create(restaurant);
         System.out.println(restaurant);
         return restaurant;
+    }
+
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantRepository.getAllRestaurants();
     }
 }

@@ -17,4 +17,8 @@ public class UserService {
         System.out.println(user);
         return user;
     }
+
+    public void vote(String restaurantName) {
+
+    }
 }

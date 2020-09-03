@@ -2,6 +2,7 @@ package ru.yastrebova.thebestrest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,10 @@ public class AdminController {
     @Autowired
     RestaurantService restaurantService;
 
-    @PostMapping("/restaurant/create")
+    @PostMapping(value = "/restaurant/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity createRestaurant(@RequestParam String name,@RequestParam(required = false)  String address,@RequestParam int adminId) {
-        restaurantService.create(name, address, adminId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody RestaurantRequest restaurant) {
+        Restaurant result = restaurantService.create(restaurant.getName(), restaurant.getAddress(), restaurant.getAdminId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
