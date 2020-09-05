@@ -6,7 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
+import ru.yastrebova.thebestrest.model.request.MealRequest;
 import ru.yastrebova.thebestrest.model.request.RestaurantRequest;
 import ru.yastrebova.thebestrest.service.RestaurantService;
 
@@ -23,5 +25,9 @@ public class AdminController {
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody RestaurantRequest restaurant) {
         Restaurant result = restaurantService.create(restaurant.getName(), restaurant.getAddress(), restaurant.getAdminId());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    public Meal addMeal(@RequestBody MealRequest meal) {
+        return null;
     }
 }

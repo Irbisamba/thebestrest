@@ -2,6 +2,7 @@ package ru.yastrebova.thebestrest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
 
@@ -23,5 +24,9 @@ public class RestaurantService {
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.getAllRestaurants();
+    }
+
+    public Meal addMeal() {
+        return null;
     }
 }
