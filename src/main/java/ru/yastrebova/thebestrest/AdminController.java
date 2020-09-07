@@ -10,7 +10,11 @@ import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.request.MealRequest;
 import ru.yastrebova.thebestrest.model.request.RestaurantRequest;
+import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.service.RestaurantService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,7 +31,20 @@ public class AdminController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    public Meal addMeal(@RequestBody MealRequest meal) {
-        return null;
+    @PostMapping(value = "/restaurant/addMeal", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<Meal> addMeal(@RequestBody MealRequest meal) {
+        Meal result = restaurantService.addMeal(meal.getRestaurantId(), meal.getMealTitle(), meal.getPrice());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/get-restaurants")
+    public ResponseEntity<List<RestaurantMeal>> getAllRestaurants() {
+        List<Restaurant> list = restaurantService.getAllRestaurants();
+        List<RestaurantMeal> result = new ArrayList<>();
+        for(Restaurant rest : list) {
+
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

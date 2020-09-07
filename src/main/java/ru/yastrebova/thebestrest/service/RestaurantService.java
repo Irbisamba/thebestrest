@@ -1,7 +1,9 @@
 package ru.yastrebova.thebestrest.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yastrebova.thebestrest.exception.RestaurantNotFoundException;
 import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@Slf4j
 public class RestaurantService {
 
     @Autowired
@@ -18,7 +21,7 @@ public class RestaurantService {
     public Restaurant create(String name, String address, int adminId) {
         Restaurant restaurant = new Restaurant(name, address, adminId, LocalDate.now());
         restaurant = restaurantRepository.create(restaurant);
-        System.out.println(restaurant);
+        log.debug("Restaurant created " + restaurant);
         return restaurant;
     }
 
@@ -26,7 +29,14 @@ public class RestaurantService {
         return restaurantRepository.getAllRestaurants();
     }
 
-    public Meal addMeal() {
-        return null;
+    public Meal addMeal(Integer restaurantId, String mealTitle, Integer price) {
+        if(restaurantRepository.findRestaurant(restaurantId) == null) {
+            log.error("shit");
+            throw new RestaurantNotFoundException(String.format("Restaurant with id - %d not found in DataBase", restaurantId));
+        }
+        Meal meal = new Meal(mealTitle, price, restaurantId);
+        meal = restaurantRepository.addMeal(meal);
+        log.debug("Meal added " + meal);
+        return meal;
     }
 }

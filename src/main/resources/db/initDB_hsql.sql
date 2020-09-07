@@ -44,4 +44,4 @@ CREATE TABLE user_authority
     role    VARCHAR(255),
     CONSTRAINT user_roles_idx UNIQUE (user_id, role),
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
-)
+);

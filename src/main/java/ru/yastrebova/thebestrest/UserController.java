@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.yastrebova.thebestrest.model.Restaurant;
+import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.service.RestaurantService;
 import ru.yastrebova.thebestrest.service.UserService;
 
@@ -28,7 +28,7 @@ public class UserController {
     }
 
     @GetMapping("/get-restaurants")
-    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
-        return new ResponseEntity<>(restaurantService.getAllRestaurants(), HttpStatus.OK);
+    public ResponseEntity<List<RestaurantMeal>> getAllRestaurants() {
+        return new ResponseEntity<>(userService.getRestaurantMealList(), HttpStatus.OK);
     }
 }

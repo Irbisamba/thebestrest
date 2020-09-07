@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "meals")
 @Data
+@NamedQuery(name = "get-restaurant-and-meals-list", query = "SELECT DISTINCT m FROM Meal m LEFT JOIN FETCH Restaurant.name WHERE m.restaurantId = ?1")
 public class Meal {
     public static final int START_SEQ = 1;
 
@@ -32,4 +33,28 @@ public class Meal {
     @Column(name = "date")
     @NotNull
     private LocalDate date;
+
+    @Column(name = "restaurant_id")
+    @NotNull
+    private Integer restaurantId;
+
+    public Meal() {
+    }
+
+    public Meal(@NotBlank String mealTitle, @NotNull int price, @NotNull int restaurantId) {
+        this.mealTitle = mealTitle;
+        this.price = price;
+        this.date = LocalDate.now();
+        this.restaurantId = restaurantId;
+    }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", mealTitle='" + mealTitle + '\'' +
+                ", price=" + price +
+                ", date=" + date +
+                '}';
+    }
 }
