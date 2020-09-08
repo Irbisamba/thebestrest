@@ -20,7 +20,7 @@ public class RestaurantService {
 
     public Restaurant create(String name, String address, int adminId) {
         Restaurant restaurant = new Restaurant(name, address, adminId, LocalDate.now());
-        restaurant = restaurantRepository.create(restaurant);
+        restaurant = restaurantRepository.save(restaurant);
         log.debug("Restaurant created " + restaurant);
         return restaurant;
     }
@@ -30,10 +30,13 @@ public class RestaurantService {
     }
 
     public Meal addMeal(Integer restaurantId, String mealTitle, Integer price) {
-        if(restaurantRepository.findRestaurant(restaurantId) == null) {
-            log.error("shit");
+        Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
+        if( restaurant == null) {
             throw new RestaurantNotFoundException(String.format("Restaurant with id - %d not found in DataBase", restaurantId));
         }
+        restaurant.setMealTitle(mealTitle);
+        restaurant.setMealPrice(price);
+        restaurantRepository.save(restaurant);
         Meal meal = new Meal(mealTitle, price, restaurantId);
         meal = restaurantRepository.addMeal(meal);
         log.debug("Meal added " + meal);

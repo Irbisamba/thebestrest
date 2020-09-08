@@ -3,11 +3,12 @@ package ru.yastrebova.thebestrest.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yastrebova.thebestrest.model.User;
-import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
 import ru.yastrebova.thebestrest.repository.UserRepository;
+import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -30,6 +31,10 @@ public class UserService {
     }
 
     public List<RestaurantMeal> getRestaurantMealList() {
-        return restaurantRepository.getRestaurantMealList();
+        return restaurantRepository.getAllRestaurants().stream().map(m ->
+                new RestaurantMeal()
+                        .setRestaurantName(m.getName())
+                        .setMealTitle(m.getMealTitle())
+                        .setPrice(m.getMealPrice())).collect(Collectors.toList());
     }
 }

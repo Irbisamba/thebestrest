@@ -1,25 +1,13 @@
 package ru.yastrebova.thebestrest.model.response;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Data
-@Entity
+@Accessors(chain = true)
 public class RestaurantMeal {
     String restaurantName;
     String mealTitle;
     Integer price;
-
-    private String id;
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Id
-    public String getId() {
-        return id;
-    }
 }

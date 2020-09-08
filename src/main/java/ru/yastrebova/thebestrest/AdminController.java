@@ -10,10 +10,8 @@ import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.request.MealRequest;
 import ru.yastrebova.thebestrest.model.request.RestaurantRequest;
-import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.service.RestaurantService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,12 +37,7 @@ public class AdminController {
     }
 
     @GetMapping("/get-restaurants")
-    public ResponseEntity<List<RestaurantMeal>> getAllRestaurants() {
-        List<Restaurant> list = restaurantService.getAllRestaurants();
-        List<RestaurantMeal> result = new ArrayList<>();
-        for(Restaurant rest : list) {
-
-        }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+        return new ResponseEntity<>(restaurantService.getAllRestaurants(), HttpStatus.OK);
     }
 }

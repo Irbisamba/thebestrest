@@ -9,9 +9,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "meals")
+@Table(name = "meals_history")
 @Data
-@NamedQuery(name = "get-restaurant-and-meals-list", query = "SELECT DISTINCT m FROM Meal m LEFT JOIN FETCH Restaurant.name WHERE m.restaurantId = ?1")
 public class Meal {
     public static final int START_SEQ = 1;
 

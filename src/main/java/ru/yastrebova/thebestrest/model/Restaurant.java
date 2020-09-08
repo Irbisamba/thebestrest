@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -40,6 +39,12 @@ public class Restaurant {
     @Column(name = "admin_id")
     @NotNull
     private int admin_id;
+
+    @Column(name = "meal_title")
+    private String mealTitle;
+
+    @Column(name = "meal_price")
+    private int mealPrice;
 
     public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id, @NotNull LocalDate date) {
         this.name = name;

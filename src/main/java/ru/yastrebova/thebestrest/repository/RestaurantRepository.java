@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
-import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class RestaurantRepository {
     }
 
     @Transactional
-    public Restaurant create(Restaurant restaurant) {
+    public Restaurant save(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
     }
 
@@ -37,10 +36,6 @@ public class RestaurantRepository {
 
     public Meal addMeal(Meal meal) {
         return crudMealRepository.save(meal);
-    }
-
-    public List<RestaurantMeal> getRestaurantMealList() {
-        return crudRestaurantRepository.getRestaurantMealList();
     }
 
 
