@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.service.RestaurantService;
@@ -22,13 +24,18 @@ public class UserController {
 
 
     @GetMapping("/save")
-    public ResponseEntity save(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<String> save(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         userService.save(name, email, password);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>("Успешно", HttpStatus.OK);
     }
 
     @GetMapping("/get-restaurants")
     public ResponseEntity<List<RestaurantMeal>> getAllRestaurants() {
         return new ResponseEntity<>(userService.getRestaurantMealList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/vote")
+    public ResponseEntity<String> vote(@PathVariable("id") Integer userId, @RequestParam Integer restaurantId) {
+        return null;
     }
 }

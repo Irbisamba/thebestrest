@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
+import ru.yastrebova.thebestrest.model.Vote;
 
 import java.util.List;
 
@@ -15,10 +16,13 @@ public class RestaurantRepository {
 
     CrudMealRepository crudMealRepository;
 
+    CrudVoteRepository crudVoteRepository;
+
     @Autowired
-    public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, CrudMealRepository crudMealRepository) {
+    public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, CrudMealRepository crudMealRepository, CrudVoteRepository crudVoteRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
         this.crudMealRepository = crudMealRepository;
+        this.crudVoteRepository = crudVoteRepository;
     }
 
     @Transactional
@@ -36,6 +40,10 @@ public class RestaurantRepository {
 
     public Meal addMeal(Meal meal) {
         return crudMealRepository.save(meal);
+    }
+
+    public List<Vote> getVotes() {
+        return crudVoteRepository.findAll();
     }
 
 

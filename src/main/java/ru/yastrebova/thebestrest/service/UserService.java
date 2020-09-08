@@ -2,6 +2,7 @@ package ru.yastrebova.thebestrest.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.User;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
 import ru.yastrebova.thebestrest.repository.UserRepository;
@@ -26,13 +27,16 @@ public class UserService {
         return user;
     }
 
-    public void vote(String restaurantName) {
-
+    public void vote(Integer userId, Integer restaurantId) {
+        Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
+        restaurant.setRating(restaurant.getRating() + 1);
+        restaurantRepository.save(restaurant);
     }
 
     public List<RestaurantMeal> getRestaurantMealList() {
         return restaurantRepository.getAllRestaurants().stream().map(m ->
                 new RestaurantMeal()
+                        .setRestaurantId(m.getId())
                         .setRestaurantName(m.getName())
                         .setMealTitle(m.getMealTitle())
                         .setPrice(m.getMealPrice())).collect(Collectors.toList());
