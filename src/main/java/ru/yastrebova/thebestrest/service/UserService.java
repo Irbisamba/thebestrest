@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.User;
+import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
 import ru.yastrebova.thebestrest.repository.UserRepository;
-import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,11 +34,14 @@ public class UserService {
     }
 
     public List<RestaurantMeal> getRestaurantMealList() {
-        return restaurantRepository.getAllRestaurants().stream().map(m ->
-                new RestaurantMeal()
-                        .setRestaurantId(m.getId())
-                        .setRestaurantName(m.getName())
-                        .setMealTitle(m.getMealTitle())
-                        .setPrice(m.getMealPrice())).collect(Collectors.toList());
+        return restaurantRepository.getAllRestaurants().stream()
+                .filter(m -> m.getMealTitle() != null && m.getMealPrice() != 0)
+                .map(m ->
+                        new RestaurantMeal()
+                                .setRestaurantId(m.getId())
+                                .setRestaurantName(m.getName())
+                                .setMealTitle(m.getMealTitle())
+                                .setPrice(m.getMealPrice()))
+                .collect(Collectors.toList());
     }
 }

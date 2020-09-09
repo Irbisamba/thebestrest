@@ -1,11 +1,13 @@
 package ru.yastrebova.thebestrest.model;
 
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -34,6 +36,14 @@ public class User {
     @NotBlank
     @Size(min = 5, max = 255)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    private Set<Role> roles;
 
     public User(@NotBlank @Size(max = 255) String name, @Email @NotBlank @Size(max = 255) String email, @NotBlank @Size(min = 5, max = 255) String password) {
         this.name = name;

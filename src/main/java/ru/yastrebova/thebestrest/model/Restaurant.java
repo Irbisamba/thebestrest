@@ -44,7 +44,7 @@ public class Restaurant {
     private String mealTitle;
 
     @Column(name = "meal_price")
-    private int mealPrice;
+    private Integer mealPrice;
 
     public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id, @NotNull LocalDate date) {
         this.name = name;
