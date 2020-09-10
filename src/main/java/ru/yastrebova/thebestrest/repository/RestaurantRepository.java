@@ -42,8 +42,12 @@ public class RestaurantRepository {
         return crudMealRepository.save(meal);
     }
 
-    public List<Vote> getVotes() {
-        return crudVoteRepository.findAll();
+    public Vote getVote(Integer userId) {
+        return crudVoteRepository.getForUser(userId).orElse(null);
+    }
+
+    public void saveVote(Vote vote) {
+        crudVoteRepository.save(vote);
     }
 
 

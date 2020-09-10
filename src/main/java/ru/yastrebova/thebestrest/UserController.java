@@ -35,6 +35,7 @@ public class UserController {
 
     @GetMapping("/{id}/vote")
     public ResponseEntity<String> vote(@PathVariable("id") Integer userId, @RequestParam Integer restaurantId) {
-        return null;
+        userService.vote(userId, restaurantId);
+        return new ResponseEntity<>("Your vote registered", HttpStatus.OK);
     }
 }
