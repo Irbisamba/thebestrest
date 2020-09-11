@@ -46,11 +46,10 @@ public class Restaurant {
     @Column(name = "meal_price")
     private Integer mealPrice;
 
-    public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id, @NotNull LocalDate date) {
+    public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id) {
         this.name = name;
         this.address = address;
         this.admin_id = admin_id;
-        this.dateOfLastUpdating = date;
     }
 
     public Restaurant() {

@@ -19,7 +19,7 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     public Restaurant create(String name, String address, int adminId) {
-        Restaurant restaurant = new Restaurant(name, address, adminId, LocalDate.now());
+        Restaurant restaurant = new Restaurant(name, address, adminId);
         restaurant = restaurantRepository.save(restaurant);
         log.debug("Restaurant created " + restaurant);
         return restaurant;
