@@ -7,6 +7,7 @@ import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -27,6 +28,7 @@ public class RestaurantRepository {
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
+        restaurant.setDateOfLastUpdating(LocalDate.now());
         return crudRestaurantRepository.save(restaurant);
     }
 

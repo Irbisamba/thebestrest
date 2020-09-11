@@ -55,7 +55,7 @@ public class UserService {
 
     public List<RestaurantMeal> getRestaurantMealList() {
         return restaurantRepository.getAllRestaurants().stream()
-                .filter(m -> m.getMealTitle() != null && m.getMealPrice() != null)
+                .filter(m -> m.getMealTitle() != null && m.getMealPrice() != null && m.getDateOfLastUpdating().isEqual(LocalDate.now()))
                 .map(m ->
                         new RestaurantMeal()
                                 .setRestaurantId(m.getId())
