@@ -1,5 +1,7 @@
 package ru.yastrebova.thebestrest;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +16,13 @@ import ru.yastrebova.thebestrest.service.UserService;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
 
     @Autowired
     private RestaurantService restaurantService;
-
 
     @GetMapping("/save")
     public ResponseEntity<String> save(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
@@ -30,6 +32,7 @@ public class UserController {
 
     @GetMapping("/get-restaurants")
     public ResponseEntity<List<RestaurantMeal>> getAllRestaurants() {
+        log.error("AZAZA");
         return new ResponseEntity<>(userService.getRestaurantMealList(), HttpStatus.OK);
     }
 
