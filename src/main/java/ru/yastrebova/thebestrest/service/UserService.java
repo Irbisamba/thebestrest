@@ -61,14 +61,13 @@ public class UserService {
 
     public List<RestaurantMeal> getRestaurantMealList() {
         return restaurantRepository.getAllRestaurants().stream()
-                .filter(m -> m.getMealTitle() != null && m.getMealPrice() != null && m.getDateOfLastUpdating().isEqual(LocalDate.now()))
+                .filter(m -> m.getMeals()!=null && !m.getMeals().isEmpty() && m.getDateOfLastUpdating().isEqual(LocalDate.now()))
                 .map(m ->
                         new RestaurantMeal()
                                 .setRestaurantId(m.getId())
                                 .setRestaurantName(m.getName())
                                 .setRating(m.getRating())
-                                .setMealTitle(m.getMealTitle())
-                                .setPrice(m.getMealPrice()))
+                                .setMeals(m.getMeals()))
                 .collect(Collectors.toList());
     }
 }

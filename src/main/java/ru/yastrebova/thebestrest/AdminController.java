@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.yastrebova.thebestrest.model.Meal;
 import ru.yastrebova.thebestrest.model.Restaurant;
+import ru.yastrebova.thebestrest.model.request.MealListRequest;
 import ru.yastrebova.thebestrest.model.request.MealRequest;
 import ru.yastrebova.thebestrest.model.request.RestaurantRequest;
 import ru.yastrebova.thebestrest.service.RestaurantService;
@@ -26,6 +27,13 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity<Restaurant> createRestaurant(@RequestBody RestaurantRequest restaurant) {
         Restaurant result = restaurantService.create(restaurant.getName(), restaurant.getAddress(), restaurant.getAdminId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/restaurant/newMealList", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<Meal>> newMealList(@RequestBody MealListRequest meal) {
+        List<Meal> result = restaurantService.newMealList(meal.getRestaurantId(), meal.getMeals());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

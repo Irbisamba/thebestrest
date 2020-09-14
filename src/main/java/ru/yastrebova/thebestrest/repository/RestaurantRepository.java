@@ -28,7 +28,6 @@ public class RestaurantRepository {
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
-        restaurant.setDateOfLastUpdating(LocalDate.now());
         return crudRestaurantRepository.save(restaurant);
     }
 

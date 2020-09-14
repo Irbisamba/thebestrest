@@ -2,6 +2,7 @@ DROP TABLE user_roles IF EXISTS;
 DROP TABLE voting_history IF EXISTS;
 DROP TABLE users IF EXISTS;
 DROP TABLE meals_history IF EXISTS;
+DROP TABLE meals IF EXISTS;
 DROP TABLE RESTAURANTS IF EXISTS;
 
 
@@ -25,10 +26,17 @@ CREATE TABLE restaurants
     address             VARCHAR(255),
     date_of_last_updating   TIMESTAMP  DEFAULT now()  NOT NULL,
     rating    INT DEFAULT 0,
-    admin_id     INTEGER      NOT NULL,
-    meal_title VARCHAR(255),
-    meal_price INT
+    admin_id     INTEGER      NOT NULL
 );
+
+CREATE TABLE meals
+(
+    restaurant_id INTEGER NOT NULL,
+    meals_key    VARCHAR(255),
+    meal_price INTEGER,
+    FOREIGN KEY (restaurant_id) REFERENCES RESTAURANTS (id) ON DELETE CASCADE
+);
+
 
 CREATE TABLE meals_history
 (

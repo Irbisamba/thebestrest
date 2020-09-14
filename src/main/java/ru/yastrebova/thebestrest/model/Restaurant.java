@@ -1,12 +1,16 @@
 package ru.yastrebova.thebestrest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "restaurants")
@@ -40,11 +44,12 @@ public class Restaurant {
     @NotNull
     private int adminId;
 
-    @Column(name = "meal_title")
-    private String mealTitle;
-
+    @CollectionTable(name = "meals", joinColumns = @JoinColumn(name = "restaurant_id"))
     @Column(name = "meal_price")
-    private Integer mealPrice;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @MapKeyJoinColumn
+    @BatchSize(size = 5)
+    private Map<String, Integer> meals;
 
     public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int adminId) {
         this.name = name;

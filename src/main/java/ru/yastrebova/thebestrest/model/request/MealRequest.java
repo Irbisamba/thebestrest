@@ -5,12 +5,14 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+
 @Data
 public class MealRequest {
+
     @NotNull
-    public Integer restaurantId;
+    private Integer restaurantId;
     @NotBlank
-    public String mealTitle;
+    private String mealTitle;
     @NotNull
-    public Integer price;
+    private Integer price;
 }
