@@ -36,6 +36,10 @@ public class RestaurantRepository {
         return crudRestaurantRepository.findAll();
     }
 
+    public List<Restaurant> getAllRestaurantsForAdmin(Integer adminId) {
+        return crudRestaurantRepository.getRestaurantsForAdmin(adminId);
+    }
+
     public Restaurant findRestaurant(Integer restaurantId) {
         return crudRestaurantRepository.findById(restaurantId).orElse(null);
     }

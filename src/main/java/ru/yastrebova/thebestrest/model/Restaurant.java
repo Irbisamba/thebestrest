@@ -38,7 +38,7 @@ public class Restaurant {
 
     @Column(name = "admin_id")
     @NotNull
-    private int admin_id;
+    private int adminId;
 
     @Column(name = "meal_title")
     private String mealTitle;
@@ -46,10 +46,10 @@ public class Restaurant {
     @Column(name = "meal_price")
     private Integer mealPrice;
 
-    public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int admin_id) {
+    public Restaurant(@NotBlank @Size(max = 255) String name, String address, @NotNull int adminId) {
         this.name = name;
         this.address = address;
-        this.admin_id = admin_id;
+        this.adminId = adminId;
     }
 
     public Restaurant() {
@@ -63,7 +63,7 @@ public class Restaurant {
                 ", address='" + address + '\'' +
                 ", dateOfLastUpdating=" + dateOfLastUpdating +
                 ", rating=" + rating +
-                ", admin_id=" + admin_id +
+                ", admin_id=" + adminId +
                 '}';
     }
 }

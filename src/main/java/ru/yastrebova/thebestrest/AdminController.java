@@ -40,4 +40,9 @@ public class AdminController {
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
         return new ResponseEntity<>(restaurantService.getAllRestaurants(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/get-restaurants")
+    public ResponseEntity<List<Restaurant>> getAllRestaurants(@PathVariable("id") Integer adminId) {
+        return new ResponseEntity<>(restaurantService.getRestaurantsForAdmin(adminId), HttpStatus.OK);
+    }
 }

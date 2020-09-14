@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 public class RestaurantMeal {
     Integer restaurantId;
     String restaurantName;
+    Integer rating;
     String mealTitle;
     Integer price;
 }

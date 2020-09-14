@@ -29,6 +29,10 @@ public class RestaurantService {
         return restaurantRepository.getAllRestaurants();
     }
 
+    public List<Restaurant> getRestaurantsForAdmin(Integer adminId) {
+        return restaurantRepository.getAllRestaurantsForAdmin(adminId);
+    }
+
     public Meal addMeal(Integer restaurantId, String mealTitle, Integer price) {
         Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
         if( restaurant == null) {
