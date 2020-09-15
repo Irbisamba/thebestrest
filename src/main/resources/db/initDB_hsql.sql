@@ -68,15 +68,23 @@ CREATE TABLE voting_history
 
 INSERT INTO users (name, email, password)
 VALUES ('User', 'user@gmail.com', 'password'),
-       ('Admin', 'admin@gmail.com', 'admin');
+       ('Admin', 'admin@gmail.com', 'admin'),
+       ('Admin2', 'admin2@gmail.com', 'admin2');
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 1),
-       ('ADMIN', 2);
+       ('ADMIN', 2),
+       ('ADMIN', 3);
 
-INSERT INTO restaurants (name, address, admin_id)
-VALUES ('Happy on the Roof', 'Moscow, Tverskaya st.', 2),
-       ('Rozengrals', 'Riga', 2),
-       ('Nyhavn 17', 'Copenhagen', 2),
-       ('Niyama', 'Chita', 2),
-       ('Zaryadiye', 'Moscow', 2);
+INSERT INTO restaurants (name, address, admin_id, rating, date_of_last_updating)
+VALUES ('Happy on the Roof', 'Moscow, Tverskaya st.', 2, 1, now()),
+       ('Rozengrals', 'Riga', 3, 2, now()),
+       ('Nyhavn 17', 'Copenhagen', 3, 3, now()),
+       ('Niyama', 'Chita', 2, 4, now()),
+       ('Zaryadiye', 'Moscow', 2, 5,  '2020-09-09');
+
+INSERT INTO meals (restaurant_id, meals_key, meal_price)
+VALUES (4, 'Pannacota', 100),
+       (5, 'Middle-century pork', 400),
+       (6, 'Smoresbrod', 450),
+       (8, 'Cheburek', 150);
