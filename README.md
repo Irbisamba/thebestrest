@@ -1,5 +1,6 @@
 # thebestrest
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/14148ccfae014a3898c5d36c6973d642)](https://app.codacy.com/manual/Irbisamba/thebestrest?utm_source=github.com&utm_medium=referral&utm_content=Irbisamba/thebestrest&utm_campaign=Badge_Grade_Dashboard)
+[![Build Status](https://travis-ci.org/Irbisamba/thebestrest.svg?branch=master)](https://travis-ci.org/Irbisamba/thebestrest)
 
 
 Voting system for deciding where to have lunch (REST only)
