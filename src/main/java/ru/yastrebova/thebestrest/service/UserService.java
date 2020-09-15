@@ -8,7 +8,9 @@ import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.Vote;
 import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
+import ru.yastrebova.thebestrest.util.TimeUtil;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -22,6 +24,8 @@ public class UserService {
 
     private final RestaurantRepository restaurantRepository;
 
+    private final TimeUtil timeUtil;
+
     public synchronized void vote(Integer userId, Integer restaurantId) {
         Vote vote = restaurantRepository.getVote(userId);
         Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
@@ -33,7 +37,7 @@ public class UserService {
             log.debug("Rating for restaurant " + restaurant.getName() + " increased : " + restaurant.getRating());
 
         } else if(vote.getDateOfVoting().equals(LocalDate.now())) {
-                    if(LocalTime.now().isBefore(FINISH_VOTING)) {
+                    if(timeUtil.now().isBefore(FINISH_VOTING)) {
                         Restaurant oldRestaurant = restaurantRepository.findRestaurant(vote.getRestaurantId());
                         oldRestaurant.setRating(oldRestaurant.getRating() - 1);
                         restaurantRepository.save(oldRestaurant);
