@@ -1,15 +1,13 @@
 package ru.yastrebova.thebestrest.service;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yastrebova.thebestrest.exception.AlreadyVotedException;
 import ru.yastrebova.thebestrest.model.Restaurant;
-import ru.yastrebova.thebestrest.model.User;
 import ru.yastrebova.thebestrest.model.Vote;
 import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
 import ru.yastrebova.thebestrest.repository.RestaurantRepository;
-import ru.yastrebova.thebestrest.repository.UserRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,41 +16,33 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Data
 public class UserService {
     private static final LocalTime FINISH_VOTING = LocalTime.of(11, 0, 0);
 
-    @Autowired
-    private UserRepository repository;
+    private final RestaurantRepository restaurantRepository;
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
-    public User save(String name, String email, String password) {
-        User user = new User(name, email, password);
-        user = repository.save(user);
-        System.out.println(user);
-        return user;
-    }
-
-    public void vote(Integer userId, Integer restaurantId) {
+    public synchronized void vote(Integer userId, Integer restaurantId) {
         Vote vote = restaurantRepository.getVote(userId);
+        Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
         if (vote == null || !vote.getDateOfVoting().equals(LocalDate.now())) {
-            Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
             restaurant.setRating(restaurant.getRating() + 1);
             restaurantRepository.save(restaurant);
             Vote newVote = new Vote(userId, restaurantId);
             restaurantRepository.saveVote(newVote);
+            log.debug("Rating for restaurant " + restaurant.getName() + " increased : " + restaurant.getRating());
 
         } else if(vote.getDateOfVoting().equals(LocalDate.now())) {
                     if(LocalTime.now().isBefore(FINISH_VOTING)) {
                         Restaurant oldRestaurant = restaurantRepository.findRestaurant(vote.getRestaurantId());
                         oldRestaurant.setRating(oldRestaurant.getRating() - 1);
                         restaurantRepository.save(oldRestaurant);
-                        Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
+                        log.debug("Rating for restaurant " + oldRestaurant.getName() + " decreased : " + oldRestaurant.getRating());
                         restaurant.setRating(restaurant.getRating() + 1);
                         restaurantRepository.save(restaurant);
                         Vote newVote = new Vote(userId, restaurantId);
                         restaurantRepository.saveVote(newVote);
+                        log.debug("Rating for restaurant " + restaurant.getName() + " increased : " + restaurant.getRating());
                     } else {
                         throw new AlreadyVotedException("You have already voted today");
                     }

@@ -31,6 +31,10 @@ public class RestaurantRepository {
         return crudRestaurantRepository.save(restaurant);
     }
 
+    public void delete(Integer restaurantId) {
+        crudRestaurantRepository.deleteById(restaurantId);
+    }
+
     public List<Restaurant> getAllRestaurants() {
         return crudRestaurantRepository.findAll();
     }

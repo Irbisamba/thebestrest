@@ -53,4 +53,16 @@ public class AdminController {
     public ResponseEntity<List<Restaurant>> getAllRestaurants(@PathVariable("id") Integer adminId) {
         return new ResponseEntity<>(restaurantService.getRestaurantsForAdmin(adminId), HttpStatus.OK);
     }
+
+    @GetMapping("/restaurant/delete")
+    public ResponseEntity<String> deleteRestaurant(@RequestParam Integer restaurantId) {
+        restaurantService.deleteRestaurant(restaurantId);
+        return new ResponseEntity<>("Restaurant with id " + restaurantId + " successfully deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("/restaurant/clearMeals")
+    public ResponseEntity<String> clearMeals(@RequestParam Integer restaurantId) {
+        restaurantService.clearMeals(restaurantId);
+        return new ResponseEntity<>("Meals cleared for restaurant with id " + restaurantId, HttpStatus.OK);
+    }
 }

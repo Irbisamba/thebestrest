@@ -1,7 +1,7 @@
 package ru.yastrebova.thebestrest.service;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yastrebova.thebestrest.exception.RestaurantNotFoundException;
 import ru.yastrebova.thebestrest.model.Meal;
@@ -17,10 +17,10 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@Data
 public class RestaurantService {
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
     public Restaurant create(String name, String address, int adminId) {
         Restaurant restaurant = new Restaurant(name, address, adminId);
@@ -28,6 +28,19 @@ public class RestaurantService {
         restaurant = restaurantRepository.save(restaurant);
         log.debug("Restaurant created " + restaurant);
         return restaurant;
+    }
+
+    public void deleteRestaurant(Integer restaurantId) {
+        restaurantRepository.delete(restaurantId);
+    }
+
+    public void clearMeals(Integer restaurantId) {
+        Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
+        if (restaurant==null) {
+            throw new RestaurantNotFoundException(String.format("Restaurant with id - %d not found in DataBase", restaurantId));
+        }
+        restaurant.setMeals(new HashMap<>());
+        restaurantRepository.save(restaurant);
     }
 
     public List<Restaurant> getAllRestaurants() {
@@ -57,6 +70,7 @@ public class RestaurantService {
         restaurant.setMeals(restaurantMeal);
         restaurant.setDateOfLastUpdating(LocalDate.now());
         restaurantRepository.save(restaurant);
+        log.debug("List of meals added");
         return mealsToDB;
     }
 
@@ -69,11 +83,25 @@ public class RestaurantService {
             restaurant.setMeals(new HashMap<>());
             restaurant.getMeals().put(mealTitle, price);
             restaurant.setDateOfLastUpdating(LocalDate.now());
+            log.debug("List of meals created. List " + restaurant.getMeals());
         } else {
             if(restaurant.getMeals().isEmpty()) {
                 restaurant.setDateOfLastUpdating(LocalDate.now());
+                restaurant.getMeals().put(mealTitle, price);
+                log.debug("Meal added to list " + mealTitle + " : " + price);
+            } else if (!restaurant.getDateOfLastUpdating().equals(LocalDate.now())) {
+                //если список еды создан не сегодня, то обновляем полностью
+                Map<String, Integer> meals = new HashMap<>();
+                meals.put(mealTitle, price);
+                restaurant.setMeals(meals);
+                restaurant.setDateOfLastUpdating(LocalDate.now());
+                log.debug("List of meals updated. List " + restaurant.getMeals());
+            } else {
+                //если список свежий, то дату обновления оставляем как есть
+                restaurant.getMeals().put(mealTitle, price);
+                log.debug("Meal added to list " + mealTitle + " : " + price);
             }
-            restaurant.getMeals().put(mealTitle, price);
+
         }
         restaurantRepository.save(restaurant);
         Meal meal = new Meal(mealTitle, price, restaurantId);
