@@ -24,7 +24,7 @@ Voting system for deciding where to have lunch (REST only)
 Метод добавляет еду в список ресторана. Если список == null, то создает новый список. Если  
 в списке ресторана есть еда, но список обновлен не сегодня, то считаем информацию устаревшей и заменяем этот список на новый.
 
-`curl -v -X POST -H "Content-Type: application/json" --data '{"restaurantId" : 7,"mealTitle" : "Cheesecake","price" : 150}' "http://localhost:8080/admin/restaurant/addMeal"`
+`curl -v -X POST -H "Content-Type: application/json" --data '{"restaurantId" : 8,"mealTitle" : "Cheesecake","price" : 150}' "http://localhost:8080/admin/restaurant/addMeal"`
 
 ###GET /admin/get-restaurants  
 Метод возвращает список всех ресторанов с подробной информацией. 
@@ -44,7 +44,7 @@ Voting system for deciding where to have lunch (REST only)
 ###GET /admin/restaurant/clearMeals
 Метод заменяет список еды ресторана пустым списком
 
-`curl 'http://localhost:8080/admin/restaurant/clearMeals?restaurantId=7'`
+`curl 'http://localhost:8080/admin/restaurant/clearMeals?restaurantId=8'`
 
 ##UserController
 
@@ -61,4 +61,4 @@ Voting system for deciding where to have lunch (REST only)
 а рейтинг ресторана, id которого передан в метод, будет увеличен на 1. Если юзер хочет переголосовать после 11-00, то будет выброшено 
 исключение.
 
-`curl 'http://localhost:8080/1/vote?restaurantId=7'`
+`curl 'http://localhost:8080/1/vote?restaurantId=4'`

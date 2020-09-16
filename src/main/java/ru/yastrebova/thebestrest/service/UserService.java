@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yastrebova.thebestrest.exception.AlreadyVotedException;
+import ru.yastrebova.thebestrest.exception.RestaurantNotFoundException;
 import ru.yastrebova.thebestrest.model.Restaurant;
 import ru.yastrebova.thebestrest.model.Vote;
 import ru.yastrebova.thebestrest.model.response.RestaurantMeal;
@@ -29,6 +30,9 @@ public class UserService {
     public synchronized void vote(Integer userId, Integer restaurantId) {
         Vote vote = restaurantRepository.getVote(userId);
         Restaurant restaurant = restaurantRepository.findRestaurant(restaurantId);
+        if(restaurant==null) {
+            throw new RestaurantNotFoundException(String.format("Restaurant with id - %d not found in DataBase", restaurantId));
+        }
         if (vote == null || !vote.getDateOfVoting().equals(LocalDate.now())) {
             restaurant.setRating(restaurant.getRating() + 1);
             restaurantRepository.save(restaurant);
@@ -39,9 +43,13 @@ public class UserService {
         } else if(vote.getDateOfVoting().equals(LocalDate.now())) {
                     if(timeUtil.now().isBefore(FINISH_VOTING)) {
                         Restaurant oldRestaurant = restaurantRepository.findRestaurant(vote.getRestaurantId());
-                        oldRestaurant.setRating(oldRestaurant.getRating() - 1);
-                        restaurantRepository.save(oldRestaurant);
-                        log.debug("Rating for restaurant " + oldRestaurant.getName() + " decreased : " + oldRestaurant.getRating());
+                        if (oldRestaurant==null) {
+                            log.error(String.format("Restaurant with id - %d not found in DataBase", vote.getRestaurantId()));
+                        } else {
+                            oldRestaurant.setRating(oldRestaurant.getRating() - 1);
+                            restaurantRepository.save(oldRestaurant);
+                            log.debug("Rating for restaurant " + oldRestaurant.getName() + " decreased : " + oldRestaurant.getRating());
+                        }
                         restaurant.setRating(restaurant.getRating() + 1);
                         restaurantRepository.save(restaurant);
                         Vote newVote = new Vote(userId, restaurantId);
